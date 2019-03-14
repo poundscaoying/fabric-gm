@@ -231,6 +231,7 @@ echo "===================== All GOOD, End-2-End execution completed ============
 echo
 
 echo
+echo "fabric-gm-1.1-alpha"
 echo " _____   _   _   ____            _____   ____    _____ "
 echo "| ____| | \ | | |  _ \          | ____| |___ \  | ____|"
 echo "|  _|   |  \| | | | | |  _____  |  _|     __) | |  _|  "

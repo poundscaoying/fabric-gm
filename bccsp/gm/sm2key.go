@@ -77,7 +77,7 @@ type gmsm2PublicKey struct {
 func (k *gmsm2PublicKey) Bytes() (raw []byte, err error) {
 	raw, err = sm2.MarshalSm2PublicKey(k.pubKey)
 	if err != nil {
-		return nil, fmt.Errorf("Failed marshalling key [%s]", err)
+		return nil, fmt.Errorf("Failed marshalling gmsm2Publickey [%s]", err)
 	}
 	return
 }

@@ -18,6 +18,7 @@ package sm3
 import (
 	"encoding/binary"
 	"hash"
+	"fmt"
 )
 
 type SM3 struct {
@@ -159,6 +160,7 @@ func (sm3 *SM3) Reset() {
 // Write (via the embedded io.Writer interface) adds more data to the running hash.
 // It never returns an error.
 func (sm3 *SM3) Write(p []byte) (int, error) {
+	fmt.Println("-------sm3.go sm3.Write------------")
 	toWrite := len(p)
 	sm3.length += uint64(len(p) * 8)
 
@@ -176,6 +178,7 @@ func (sm3 *SM3) Write(p []byte) (int, error) {
 // Sum appends the current hash to b and returns the resulting slice.
 // It does not change the underlying hash state.
 func (sm3 *SM3) Sum(in []byte) []byte {
+	fmt.Println("-------sm3.go sm3.Sum------------")
 	sm3.Write(in)
 	msg := sm3.pad()
 

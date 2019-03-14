@@ -19,6 +19,7 @@ import (
 	"hash"
 
 	"github.com/hyperledger/fabric/bccsp"
+	"fmt"
 )
 
 //定义hasher 结构体，实现内部的一个 Hasher 接口
@@ -27,8 +28,10 @@ type hasher struct {
 }
 
 func (c *hasher) Hash(msg []byte, opts bccsp.HashOpts) (hash []byte, err error) {
+	fmt.Println("-----------gm hash --------------")
 	h := c.hash()
 	h.Write(msg)
+	fmt.Println("msg:",msg,"opts:",opts,"digest:",h.Sum(nil))
 	return h.Sum(nil), nil
 }
 

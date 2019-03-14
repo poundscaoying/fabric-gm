@@ -32,6 +32,9 @@ const (
 	// ECDSAReRand ECDSA key re-randomization
 	ECDSAReRand = "ECDSA_RERAND"
 
+	GMSM2ReRand = "GMSM2_RERAND"
+
+
 	// RSA at the default security level.
 	// Each BCCSP may or may not support default security level. If not supported than
 	// an error will be returned.
@@ -410,3 +413,28 @@ func (opts *X509PublicKeyImportOpts) Algorithm() string {
 func (opts *X509PublicKeyImportOpts) Ephemeral() bool {
 	return opts.Temporary
 }
+
+
+//test
+// ECDSAReRandKeyOpts contains options for ECDSA key re-randomization.
+type GMSM2ReRandKeyOpts struct {
+	Temporary bool
+	Expansion []byte
+}
+
+// Algorithm returns the key derivation algorithm identifier (to be used).
+func (opts *GMSM2ReRandKeyOpts) Algorithm() string {
+	return GMSM2ReRand
+}
+
+// Ephemeral returns true if the key to generate has to be ephemeral,
+// false otherwise.
+func (opts *GMSM2ReRandKeyOpts) Ephemeral() bool {
+	return opts.Temporary
+}
+
+// ExpansionValue returns the re-randomization factor
+func (opts *GMSM2ReRandKeyOpts) ExpansionValue() []byte {
+	return opts.Expansion
+}
+//*test

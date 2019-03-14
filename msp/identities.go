@@ -22,6 +22,8 @@ import (
 	"github.com/hyperledger/fabric/protos/msp"
 	"github.com/op/go-logging"
 	"github.com/tjfoc/gmsm/sm2"
+//	"github.com/hyperledger/fabric/bccsp/gm"
+
 )
 
 var mspIdentityLogger = flogging.MustGetLogger("msp/identity")
@@ -122,7 +124,18 @@ func (id *identity) Verify(msg []byte, sig []byte) error {
 		return fmt.Errorf("Failed getting hash function options [%s]", err)
 	}
 
+	//digest, err := id.msp.bccsp.Hash(msg, &bccsp.GMSM3Opts{})
 	digest, err := id.msp.bccsp.Hash(msg, hashOpt)
+
+	//var sm3 bccsp.BCCSP
+	//digestSm3, err := sm3.Hash(msg, &bccsp.GMSM3Opts{})
+
+
+	println("-----------identities Verify-----------")
+	fmt.Println("hashOpt:",hashOpt)
+	fmt.Println("msg:",msg)
+	fmt.Println("digest:",digest)
+	//fmt.Println("digestSm3:",digestSm3)
 	if err != nil {
 		return fmt.Errorf("Failed computing digest [%s]", err)
 	}
@@ -133,6 +146,9 @@ func (id *identity) Verify(msg []byte, sig []byte) error {
 	}
 
 	valid, err := id.msp.bccsp.Verify(id.pk, sig, digest, nil)
+	fmt.Println(id.pk.Bytes())
+	fmt.Println(sig)
+	fmt.Println(digest)
 	if err != nil {
 		return fmt.Errorf("Could not determine the validity of the signature, err %s", err)
 	} else if !valid {
@@ -163,10 +179,14 @@ func (id *identity) Serialize() ([]byte, error) {
 }
 
 func (id *identity) getHashOpt(hashFamily string) (bccsp.HashOpts, error) {
+	fmt.Println("---------identity getHahOpt---------")
 	switch hashFamily {
 	case bccsp.SHA2:
-		return bccsp.GetHashOpt(bccsp.SHA256)
+		fmt.Println("SHA2 256")
+		//return bccsp.GetHashOpt(bccsp.SHA256)
+		return bccsp.GetHashOpt(bccsp.GMSM3)
 	case bccsp.SHA3:
+		fmt.Println("SHA3 256")
 		return bccsp.GetHashOpt(bccsp.SHA3_256)
 	}
 	return nil, fmt.Errorf("hash famility not recognized [%s]", hashFamily)

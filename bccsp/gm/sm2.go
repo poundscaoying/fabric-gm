@@ -82,7 +82,12 @@ func signGMSM2(k *sm2.PrivateKey, digest []byte, opts bccsp.SignerOpts) (signatu
 }
 
 func verifyGMSM2(k *sm2.PublicKey, signature, digest []byte, opts bccsp.SignerOpts) (valid bool, err error) {
+	fmt.Println("---------verifyGMSM2------")
+	fmt.Println(k)
+	fmt.Println("signature:",[]byte(signature))
+	fmt.Println("digest:",digest)
 	valid = k.Verify(digest, signature)
+	fmt.Println(valid)
 	return
 }
 
@@ -120,6 +125,7 @@ func (v *gmsm2PrivateKeyVerifier) Verify(k bccsp.Key, signature, digest []byte, 
 type gmsm2PublicKeyKeyVerifier struct{}
 
 func (v *gmsm2PublicKeyKeyVerifier) Verify(k bccsp.Key, signature, digest []byte, opts bccsp.SignerOpts) (valid bool, err error) {
+	fmt.Println("---------gmsm2PublickKeyVerifier Verify------")
 	return verifyGMSM2(k.(*gmsm2PublicKey).pubKey, signature, digest, opts)
 }
 
@@ -138,6 +144,7 @@ func (v *ecdsaPrivateKeyVerifier) Verify(k bccsp.Key, signature, digest []byte, 
 type ecdsaPublicKeyKeyVerifier struct{}
 
 func (v *ecdsaPublicKeyKeyVerifier) Verify(k bccsp.Key, signature, digest []byte, opts bccsp.SignerOpts) (valid bool, err error) {
+	fmt.Println("---------ecdsaPublickKeyVerifier Verify------")
 	puk := k.(*ecdsaPublicKey).pubKey
 	sm2pk := sm2.PublicKey{
 		Curve: puk.Curve,

@@ -72,6 +72,7 @@ func validateChaincodeProposalMessage(prop *pb.Proposal, hdr *common.Header) (*p
 // this function returns Header and ChaincodeHeaderExtension messages since they
 // have been unmarshalled and validated
 func ValidateProposalMessage(signedProp *pb.SignedProposal) (*pb.Proposal, *common.Header, *pb.ChaincodeHeaderExtension, error) {
+	fmt.Println("---------ValidateProposalMessage----------")
 	if signedProp == nil {
 		return nil, nil, nil, errors.New("Nil arguments")
 	}
@@ -80,6 +81,8 @@ func ValidateProposalMessage(signedProp *pb.SignedProposal) (*pb.Proposal, *comm
 
 	// extract the Proposal message from signedProp
 	prop, err := utils.GetProposal(signedProp.ProposalBytes)
+	fmt.Println("signedProp.proposalBytes:",prop)
+	fmt.Println("signedProp.signature:",signedProp.Signature)
 	if err != nil {
 		return nil, nil, nil, err
 	}
@@ -138,8 +141,10 @@ func ValidateProposalMessage(signedProp *pb.SignedProposal) (*pb.Proposal, *comm
 // given a creator, a message and a signature,
 // this function returns nil if the creator
 // is a valid cert and the signature is valid
-func checkSignatureFromCreator(creatorBytes []byte, sig []byte, msg []byte, ChainID string) error {
-	putilsLogger.Debugf("checkSignatureFromCreator starts")
+	func checkSignatureFromCreator(creatorBytes []byte, sig []byte, msg []byte, ChainID string) error {
+		fmt.Println("---------checkSignatureFromCreator----------")
+
+		putilsLogger.Debugf("checkSignatureFromCreator starts")
 
 	// check for nil argument
 	if creatorBytes == nil || sig == nil || msg == nil {

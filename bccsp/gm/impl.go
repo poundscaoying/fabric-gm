@@ -26,6 +26,7 @@ import (
 	"github.com/hyperledger/fabric/common/flogging"
 	"github.com/tjfoc/gmsm/sm3"
 	"golang.org/x/crypto/sha3"
+	"fmt"
 )
 
 var (
@@ -88,7 +89,7 @@ func New(securityLevel int, hashFamily string, keyStore bccsp.KeyStore) (bccsp.B
 	// Set the key generators
 	keyGenerators := make(map[reflect.Type]KeyGenerator)
 	keyGenerators[reflect.TypeOf(&bccsp.GMSM2KeyGenOpts{})] = &gmsm2KeyGenerator{}
-	keyGenerators[reflect.TypeOf(&bccsp.GMSM4KeyGenOpts{})] = &gmsm4KeyGenerator{length: 32}
+	keyGenerators[reflect.TypeOf(&bccsp.GMSM4KeyGenOpts{})] = &gmsm4KeyGenerator{length: 16}
 	impl.keyGenerators = keyGenerators
 
 	// Set the key derivers
@@ -203,7 +204,7 @@ func (csp *impl) KeyImport(raw interface{}, opts bccsp.KeyImportOpts) (k bccsp.K
 	if err != nil {
 		return nil, errors.ErrorWithCallstack(errors.BCCSP, errors.Internal, "Failed importing key with opts [%v]", opts).WrapError(err)
 	}
-
+	/*
 	// If the key is not Ephemeral, store it.
 	if !opts.Ephemeral() {
 		// Store the key
@@ -212,7 +213,7 @@ func (csp *impl) KeyImport(raw interface{}, opts bccsp.KeyImportOpts) (k bccsp.K
 			return nil, errors.ErrorWithCallstack(errors.BCCSP, errors.Internal, "Failed storing imported key with opts [%v]", opts).WrapError(err)
 		}
 	}
-
+    */
 	return
 }
 
@@ -307,6 +308,8 @@ func (csp *impl) Verify(k bccsp.Key, signature, digest []byte, opts bccsp.Signer
 	if !found {
 		return false, errors.ErrorWithCallstack(errors.BCCSP, errors.NotFound, "Unsupported 'VerifyKey' provided [%T]", k)
 	}
+	fmt.Println("-----------Verify impl function---------")
+	fmt.Println(verifier)
 
 	valid, err = verifier.Verify(k, signature, digest, opts)
 	if err != nil {

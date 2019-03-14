@@ -17,6 +17,7 @@ package sm2
 
 // reference to ecdsa
 import (
+	"fmt"
 	"bytes"
 	"crypto"
 	"crypto/aes"
@@ -71,7 +72,6 @@ func (priv *PrivateKey) Decrypt(data []byte) ([]byte, error) {
 
 func (pub *PublicKey) Verify(msg []byte, sign []byte) bool {
 	var sm2Sign sm2Signature
-
 	_, err := asn1.Unmarshal(sign, &sm2Sign)
 	if err != nil {
 		return false
@@ -218,6 +218,13 @@ func Sign(priv *PrivateKey, hash []byte) (r, s *big.Int, err error) {
 }
 
 func Verify(pub *PublicKey, hash []byte, r, s *big.Int) bool {
+	fmt.Println("----------sm2/sm2.go Verify----------")
+	fmt.Println("pob.x:",pub.X)
+	fmt.Println("pub.y:",pub.Y)
+	fmt.Println("pub.curve:",pub.Curve)
+	fmt.Println("hash:",hash)
+	fmt.Println("r:",r)
+	fmt.Println("s:",s)
 	c := pub.Curve
 	N := c.Params().N
 
@@ -243,6 +250,7 @@ func Verify(pub *PublicKey, hash []byte, r, s *big.Int) bool {
 	e := new(big.Int).SetBytes(hash)
 	x.Add(x, e)
 	x.Mod(x, N)
+	fmt.Println(x.Cmp(r) == 0)
 	return x.Cmp(r) == 0
 }
 

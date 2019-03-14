@@ -81,3 +81,5 @@ func GetHashOpt(hashFunction string) (HashOpts, error) {
 	}
 	return nil, fmt.Errorf("hash function not recognized [%s]", hashFunction)
 }
+
+
