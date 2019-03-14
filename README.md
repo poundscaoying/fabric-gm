@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 Hyperledger Fabric with GM
 
 支持国密加密算法的Hyperledger Fabric版本
@@ -15,3 +16,7 @@ bccsp国密算法实现接口路径：fabric/bccsp/gm
 
 
 
+=======
+# fabric-gm
+fabric with SM  algorithms based on 1.1version
+>>>>>>> a89df550cc2ef1dbaba22f4d7fd10c620d826e2d
